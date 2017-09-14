@@ -54,7 +54,7 @@ pipeline {
           },
           "JUnitResultArchiver": {
             sh 'echo "Junit Test"'
-            junit allowEmptyResults: true, testResults: 'app-*/target/*-reports/*.xml'
+            junit allowEmptyResults: true, testResults: 'sonarqube-scanner-maven/app-*/target/*-reports/*.xml'
           }
         )
       }
@@ -72,9 +72,7 @@ pipeline {
     stage('Staging') {
       steps {
         echo 'staging now'
-           sh "cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn -X package"
-           sh "cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn -X clean  verify"
-
+           sh "cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn clean package verify"
            input "http://106.2.4.82:8080/userContent/releasenotes.html 蓝绿部署验证通过了么？", ok: 'Go!'
 
       }
