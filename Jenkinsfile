@@ -30,8 +30,8 @@ pipeline {
           "Build-PreCheck": {
             withSonarQubeEnv('Sonar') {
                 sh 'echo "Build PreCheck"'
-                sh 'cd sonarqube-scanner-maven'
-                sh '/opt/apache-maven-3.5.0/bin/mvn -X clean install sonar:sonar'
+                sh 'echo sonarqube-scanner-maven'
+                sh 'cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn -X clean install sonar:sonar'
             }
           }
         )
