@@ -28,7 +28,6 @@ pipeline {
             
           },
           "Build-PreCheck": {
-            def scannerHome = tool 'SonarQube Scanner 3.0';
             withSonarQubeEnv('Sonar') {
                 sh 'echo "Build PreCheck"'
                 sh 'cd sonarqube-scanner-maven'
