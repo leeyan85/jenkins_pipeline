@@ -75,7 +75,7 @@ pipeline {
            sh "cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn -X package"
            sh "cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn -X clean  verify"
 
-           input "蓝绿部署验证通过了么？"
+           input "http://106.2.4.82:8080/userContent/releasenotes.html 蓝绿部署验证通过了么？", ok: 'Go!'
 
       }
       
