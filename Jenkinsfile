@@ -72,8 +72,14 @@ pipeline {
     stage('Staging') {
       steps {
         echo 'staging now'
-           sh "cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn clean package verify"
-           input "http://106.2.4.82:8080/userContent/releasenotes.html 蓝绿部署验证通过了么？", ok: 'Go!'
+        script {
+                    env.RELEASE_SCOPE = input message: 'http://106.2.4.82:8080/userContent/releasenotes.html 蓝绿部署验证通过了么？', ok: 'Release!',
+                            parameters: [choice(name: 'RELEASE_SCOPE', choices: 'patch\nminor\nmajor', description: 'What is the release scope?')]
+                }
+        echo "${env.RELEASE_SCOPE}"
+        sh 'sed -i -e "s/RELEASE_TYPE/Type: ${env.RELEASE_SCOPE} release; /" releasenotes.html '
+        sh 'sed -i -e "s/RELEASE_VERSION/`date "+%Y%M%m%d%H%M"`/" releasenotes.html '
+        sh 'cp -f releasenotes.html ~/userContent/releasenotes.html'
 
       }
       
@@ -90,7 +96,7 @@ pipeline {
                     env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
                             parameters: [choice(name: 'RELEASE_SCOPE', choices: 'patch\nminor\nmajor', description: 'What is the release scope?')]
                 }
-                echo "${env.RELEASE_SCOPE}"
+        echo "${env.RELEASE_SCOPE}"
 
       }
     }
