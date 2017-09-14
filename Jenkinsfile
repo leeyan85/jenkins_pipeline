@@ -54,7 +54,6 @@ pipeline {
           },
           "JUnitResultArchiver": {
             sh 'echo "Junit Test"'
-            sh 'cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn clean install sonar:sonar'
             junit allowEmptyResults: true, testResults: 'app-*/target/*-reports/*.xml'
           }
         )
@@ -73,10 +72,10 @@ pipeline {
     stage('Staging') {
       steps {
         echo 'staging now'
-           sh "/opt/apache-maven-3.5.0/bin/mvn package"
-           sh "/opt/apache-maven-3.5.0/bin/mvn clean  verify"
+           sh "cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn -X package"
+           sh "cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn -X clean  verify"
 
-           input "Does http://106.2.4.82:9010/dashboard/index/jacoco/jacoco.xml look good?"
+           input "蓝绿部署验证通过了么？"
 
       }
       
