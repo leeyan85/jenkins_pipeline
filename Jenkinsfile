@@ -23,16 +23,16 @@ pipeline {
     stage('Build') {
       steps {
         parallel(
-          "Build": {
-            sh 'echo "Building now"'
-            
-          },
-          "Build-PreCheck": {
+          "Sonar-Check": {
             withSonarQubeEnv('Sonar') {
                 sh 'echo "Build PreCheck"'
                 sh 'echo sonarqube-scanner-maven'
-                sh 'cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn -X clean install sonar:sonar'
+                sh 'cd sonarqube-scanner-maven && /opt/apache-maven-3.5.0/bin/mvn clean install sonar:sonar'
             }
+          },
+          "Build": {
+            sh 'echo "Building now"'
+            
           }
         )
       }
