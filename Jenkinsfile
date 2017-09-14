@@ -5,7 +5,7 @@ pipeline {
       steps {
         parallel(
           "CheckOut": {
-            git(url: 'git@06922352ca60:root/myproj.git', poll: true, branch: 'master', changelog: true)
+            git(url: 'git@106.2.4.82:root/myproj.git', poll: true, branch: 'master', changelog: true)
             
           },
           "PreCheck1": {
@@ -79,8 +79,12 @@ pipeline {
     stage('ReadyGo') {
       steps {
         echo 'ReadyToGo'
-        input(message: 'Ready to Go Production?', submitter: 'admin', submitterParameter: 'isReady=true')
-        echo 'Done'
+        script {
+                    env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
+                            parameters: [choice(name: 'RELEASE_SCOPE', choices: 'patch\nminor\nmajor', description: 'What is the release scope?')]
+                }
+                echo "${env.RELEASE_SCOPE}"
+
       }
     }
   }
