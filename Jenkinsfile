@@ -77,7 +77,7 @@ pipeline {
                             parameters: [choice(name: 'RELEASE_SCOPE', choices: 'patch\nminor\nmajor', description: 'What is the release scope?')]
                 }
         echo "${env.RELEASE_SCOPE}"
-        sh 'sed -i -e "s/RELEASE_TYPE/Type: ${env.RELEASE_SCOPE} release; /" releasenotes.html '
+        sh "sed -i -e \"s/RELEASE_TYPE/${env.RELEASE_SCOPE} release /\" releasenotes.html " 
         sh 'sed -i -e "s/RELEASE_VERSION/`date "+%Y%M%m%d%H%M"`/" releasenotes.html '
         sh 'cp -f releasenotes.html ~/userContent/releasenotes.html'
 
