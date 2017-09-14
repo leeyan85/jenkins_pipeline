@@ -5,7 +5,7 @@ pipeline {
       steps {
         parallel(
           "CheckOut": {
-            git(url: 'https://github.com/devopsus/demo.git', poll: true, branch: 'master', changelog: true)
+            git(url: 'git@06922352ca60:root/myproj.git', poll: true, branch: 'master', changelog: true)
             
           },
           "PreCheck1": {
